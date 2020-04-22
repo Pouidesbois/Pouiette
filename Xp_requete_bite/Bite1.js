@@ -3,6 +3,16 @@ const axios=require("axios");
 const cheerio = require("cheerio");
 const fs = require("fs");
 const requete=require("request");
+var Client = require('ftp');
+var c = new Client();
+
+const configftp = {
+    host: process.env.host,
+    user: process.env.user,
+    password: process.env.password
+}
+c.connect(configftp);
+
 var liveon=false;
 const oauth=process.env.oauth;
 function getTime() {
@@ -76,8 +86,12 @@ async function getData() {
         var a = searchData(this);
         textevidepourlinstant = textevidepourlinstant + "---------------------------------\n" + a.children(".mikuia-card-block.mikuia-card-ranking-block").next().children().children().next().children('h4').children().text() + "\n" + a.children(".mikuia-card-block.mikuia-card-ranking-block").next().next().children('h3').text() + "\n"
     });
-   console.log(getTime() + " " + "test")  
-    fs.writeFileSync("./Xp_requete_bite/logs/" + getDate()+ ".txt",textevidepourlinstant);
+   console.log(getTime() + " " + "test") 
+   c.put(textevidepourlinstant, "/Xp_requete_bite/logs/" + getDate()+ ".txt", (error) => {
+       if (error) throw error
+   })
+    // fs.writeFileSync("./Xp_requete_bite/logs/" + getDate()+ ".txt",textevidepourlinstant);
+  
   };
 
 

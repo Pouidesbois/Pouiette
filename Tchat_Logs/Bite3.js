@@ -1,19 +1,28 @@
 const tmi= require("tmi.js");
 const fs = require("fs");
+var Client = require('ftp');
+var c = new Client();
+
+const configftp = {
+    host: process.env.host,
+    user: process.env.user,
+    password: process.env.password
+}
+c.connect(configftp);
 const oauth=process.env.oauth;
 function getDate() {
     let date = new Date();
     let year = date.getFullYear();
     let month = date.getMonth()+1;
     let day = date.getDate();
-    let hours = date.getHours();
+    let hours = date.getHours()+2;
     let minutes = date.getMinutes();
     const datee = year + "-" + month + "-" + day ;
     return datee;
 }
 function getTime() {
     let date1 = new Date();
-    let hours1 = date1.getHours();
+    let hours1 = date1.getHours()+2;
     let minutes1 = date1.getMinutes();
     if (minutes1<10) {
         minutes1 = "0"+ minutes1
@@ -43,5 +52,7 @@ client.on('chat', (channel, userstate, message, self) => {
     let username = userstate["username"]
     console.log("[" + getTime() + "]" + " " + userstate.username +" : "+ message)
     let tchat = "[" + getTime() + "]" + " " + userstate.username +" : "+ message + "\n"
-    fs.writeFile("./Tchat_Logs/logs/" + getDate()+ ".txt",tchat,{mode:0o755,flag:"a"},_ => {});
+    c.append(tchat,"/Tchat_Logs/logs/" + getDate()+ ".txt", (error) => {
+        if (error) throw error
+    })
 });
