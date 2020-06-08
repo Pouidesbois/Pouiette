@@ -41,7 +41,7 @@ const config={
         username : "Poui213",
         password : oauth
     },
-    channels:["JLTomy"],
+    channels:["Chatdesbois"],
 }
 let client = new tmi.client(config);
 client.connect().then(function () {
