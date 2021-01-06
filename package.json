@@ -9,7 +9,7 @@
     "dev1": "nodemon ./Tchat_Logs/Bite3.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.3",
     "fs": "0.0.1-security",
     "ftp": "^0.3.10",
